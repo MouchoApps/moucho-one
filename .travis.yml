@@ -1,2 +1,9 @@
 language: java
 
+addons:
+  sonarcloud:
+    organization: "moucho_apps_sonarcloud_key"
+    
+script:
+  # other script steps might be done before running the actual analysis
+  - sonar-scanner
