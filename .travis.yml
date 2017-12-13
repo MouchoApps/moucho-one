@@ -3,6 +3,8 @@ sudo: false
 
 language: java
 
+dist: trusty
+
 addons:
   sonarcloud:
     organization: "moucho_apps_sonarcloud_key"
