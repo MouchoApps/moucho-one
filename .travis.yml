@@ -3,28 +3,20 @@ sudo: false
 
 language: java
 
-dist: trusty
-
 addons:
   sonarcloud:
     organization: "moucho_apps_sonarcloud_key"
-
-# Cache Gcloud SDK between commands
-cache:
-  directories:
-    - "$HOME/google-cloud-sdk/"
-
-# Install services
-services:
-  - docker
-
-# Install addons
-addons:
   apt:
     packages:
     - default-jre
 
-# Set env vars
+cache:
+  directories:
+    - "$HOME/google-cloud-sdk/"
+
+services:
+  - docker
+
 env:
   global:
     - GOOGLE_APPLICATION_CREDENTIALS=~/gcloud-service-key.json
@@ -35,7 +27,7 @@ env:
     - CLOUDSDK_COMPUTE_ZONE=eu-west1-b
     - NODE_ENV=CI
 
-before_install:
+install:
   - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
   - source /home/travis/google-cloud-sdk/path.bash.inc
   - gcloud --quiet version
@@ -43,7 +35,6 @@ before_install:
   - gcloud --quiet components update beta
 
 script:
-  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
 
 before_deploy:
